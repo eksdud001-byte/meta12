@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container {
+            /* 부모에게 position relative를 주는 것은 
+            중요하다
+             */
+             /* 자식이 relative, absolute, fixed, sticky
+             인 경우 기준점을 제공하기 위해
+             반드시 부모는 relative여야함 (static이면 안됨)
+             자식이 이상한대로 가지않도록 자신은 relativ를 
+             가지고 있어야 함.
+              */
+            position: relative;
+            width: 400px;
+            border: 3px solid black;
+            padding: 10px;
+            margin: 20px;
+            background-color: #f0f0f0;
+        }
+        .box {
+            width: 100px;
+            height: 100px;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+            /* 내부요소를 (글자, 이미지, 또는 자식 태그)를
+            가운데 정렬하는 방법
+            통째로 외우시면 됩니다 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            
+        }
+        .box1 {
+            background-color: #e74c3c;
+
+        }
+         .box2 {
+            background-color: #3498db;
+            /* position: relative; 
+            상대적으로 가고 absolute 는 부모기준 박스기준으로 
+            움직인다. 이게 핵심이다. 
+            relative는 고무고무 열매를 먹어서 허리가 길다. */
+
+            position: absolute;
+            top: 100px;
+            left: 300px;
+            opacity: 0.2;
+        }
+         .box3 {
+            background-color: #2ecc71;
+
+        
+    
+        }
+    </style>
+</head>
+<body>
+    <h3>position 속성 예제 - relative와 absolute</h3>
+    <div class="container">
+        <!-- div.box*3 + enter -->
+        <div class="box box1">1</div>
+        <div class="box box2">2 (Target)</div>
+        <div class="box box3">3</div>
+    </div>
+</body>
+</html>
