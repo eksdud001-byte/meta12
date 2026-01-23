@@ -11,7 +11,7 @@
         height: 400px; /* 슬라이더 높이 */
         margin: 50px auto; /* 중앙 정렬 */
         position: relative; /* 버튼 배치를 위한 기준점 */
-        overflow: hidden; /*넘치는 이미지 숨기기*/
+        overflow: hidden; /* 넘치는 이미지 숨기기 */
         border-radius: 10px; /* 모서리 둥글게 */
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* 그림자 효과 */
       }
@@ -113,6 +113,78 @@
       <button class="next-btn">&#10095;</button>
       <div class="dots-container"></div>
     </div>
-    <script></script>
+    <script>
+      let currentIndex = 0;
+      let slideInterval;
+      // querySelectorAll은 slide 클래스 모두를 배열로 저장
+      const slides = document.querySelectorAll(".slide");
+      const sliderWrapper = document.querySelector(".slider-wrapper");
+      const dotsContainer = document.querySelector(".dots-container");
+
+      // 이전(왼쪽) 슬라이드로 이동. 목적은 보여줘야할 슬라이드의 index를 찾는것
+      function prevSlide() {
+        if (currentIndex == 0) {
+          currentIndex = slides.length - 1;
+        } else {
+          currentIndex--;
+        }
+        sliderWrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
+      }
+      // 다음(오른쪽) 슬라이드로 이동. 목적은 보여줘야할 슬라이드의 index를 찾는것
+      function nextSlide() {
+        if (currentIndex == slides.length - 1) {
+          currentIndex = 0;
+        } else {
+          currentIndex++;
+        }
+        sliderWrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
+      }
+
+      function createDots() {
+        slides.forEach((slide, index) => {
+          const dot = document.createElement("div");
+          dot.classList.add("dot");
+          dot.onclick = function () {
+            currentIndex = index;
+            sliderWrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
+            updateDots();
+          };
+          dotsContainer.appendChild(dot);
+        });
+      }
+
+      function updateDots() {
+        const dots = document.querySelectorAll(".dot");
+        dots.forEach((dot, index) => {
+          index === currentIndex
+            ? dot.classList.add("active")
+            : dot.classList.remove("active");
+        });
+      }
+
+      // 9. 자동 재생 시작 (3초마다 nextSlide 실행)
+      function startAutoSlide() {
+        slideInterval = setInterval(nextSlide, 3000);
+      }
+
+      // 10. 자동 재생 멈춤
+      function stopAutoSlide() {
+        clearInterval(slideInterval);
+      }
+
+      // 버튼 클릭 이벤트 등록
+      const nextBtn = document.querySelector(".next-btn");
+      const prevBtn = document.querySelector(".prev-btn");
+      nextBtn.addEventListener("click", nextSlide); // 함수의 이름만 사용
+      prevBtn.addEventListener("click", prevSlide); // 함수의 이름만 사용
+
+      // 마우스 호버 시 자동 재생 멈춤/재개 기능
+      const sliderContainer = document.querySelector(".slider-container");
+      sliderContainer.addEventListener("mouseenter", stopAutoSlide); // 마우스 올리면 멈춤
+      sliderContainer.addEventListener("mouseleave", startAutoSlide); // 마우스 떼면 다시 시작
+
+      createDots();
+      startAutoSlide();
+    </script>
   </body>
 </html>
